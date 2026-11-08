@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon de R - SELF CHECK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #4a453f;
+      --subtext: #827b72;
+      --border: #d4cfc8;
+      --accent: #8b7965;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif JP', serif;
+      padding: 40px 16px 60px;
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* 上部ヘッダー */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .brand-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: #635b52;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--subtext);
+      margin-top: 4px;
+      letter-spacing: 0.15em;
+    }
+
+    /* メインの枠線カード */
+    .check-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 20px 28px;
+      background: var(--card-bg);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    }
+
+    .card-title {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: #554e46;
+      margin-bottom: 8px;
+    }
+
+    .card-lead {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      color: #4a453f;
+      margin-bottom: 4px;
+    }
+
+    .card-instruction {
+      text-align: center;
+      font-size: 11px;
+      color: var(--subtext);
+      margin-bottom: 24px;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: #eeeae4;
+      margin: 24px 0 20px;
+    }
+
+    /* セクション */
+    .section-title-ja {
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .section-title-en {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      color: #8c8275;
+      margin-bottom: 18px;
+    }
+
+    /* チェック項目リスト */
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .check-item input[type="checkbox"] {
+      display: none;
+    }
+
+    .checkbox-custom {
+      width: 17px;
+      height: 17px;
+      border: 1px solid #bfb7ad;
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .check-item input[type="checkbox"]:checked + .checkbox-custom {
+      background-color: #8b7965;
+      border-color: #8b7965;
+    }
+
+    .checkbox-custom::after {
+      content: "";
+      width: 4px;
+      height: 8px;
+      border: solid #fff;
+      border-width: 0 1.5px 1.5px 0;
+      transform: rotate(45deg);
+      margin-top: -2px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .check-item input[type="checkbox"]:checked + .checkbox-custom::after {
+      opacity: 1;
+    }
+
+    .item-text {
+      font-size: 12px;
+      color: #554e46;
+      line-height: 1.5;
+    }
+
+    /* 注意書き */
+    .notice {
+      font-size: 9.5px;
+      color: #9c9489;
+      margin: 24px 0 16px;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    /* 判定ボタン */
+    .btn-submit {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid #827b72;
+      border-radius: 9999px;
+      padding: 12px;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #3d3832;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      transition: all 0.25s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #524b43;
+      color: #ffffff;
+      border-color: #524b43;
+    }
+
+    /* 結果表示エリア */
+    .result-container {
+      margin-top: 24px;
+      display: none;
+      padding: 20px;
+      border-radius: 12px;
+      background-color: #fbf9f6;
+      border: 1px solid #e9e3da;
+      text-align: center;
+    }
+
+    .result-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #4a423a;
+      margin-bottom: 8px;
+    }
+
+    .result-text {
+      font-size: 12px;
+      color: #635b52;
+      line-height: 1.7;
+    }
+
+    /* 下部フッター */
+    .footer-credit {
+      text-align: center;
+      margin-top: 24px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      color: #999187;
+      letter-spacing: 0.15em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 上部タイトル -->
+    <header class="brand-header">
+      <div class="brand-title">Salon de R</div>
+      <div class="brand-subtitle">肌と頭皮を、丁寧に整える。</div>
+    </header>
+
+    <!-- メインカード -->
+    <div class="check-card">
+      <div class="card-title">SELF CHECK</div>
+      <div class="card-lead">今、あなたが整えたいのは？</div>
+      <div class="card-instruction">当てはまる項目にチェックしてください</div>
+
+      <div class="divider"></div>
+
+      <!-- ① 水光美肌ケア -->
+      <section>
+        <div class="section-title-ja">① 水光美肌ケアチェック</div>
+        <div class="section-title-en">SKIN CARE</div>
+        <div class="item-list">
+          <label class="check-item">
+            <input type="checkbox" name="skin" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">肌のハリや弾力が気になってきた</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="skin" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">以前より肌のツヤがなくなった</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="skin" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">乾燥しやすく、化粧ノリが悪い</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="skin" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">毛穴やキメの乱れが気になる</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="skin" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">顔全体が疲れて見える</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="skin" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">年齢とともに肌質の変化を感じる</span>
+          </label>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ② 水光頭皮ケア -->
+      <section>
+        <div class="section-title-ja">② 水光頭皮ケアチェック</div>
+        <div class="section-title-en">SCALP CARE</div>
+        <div class="item-list">
+          <label class="check-item">
+            <input type="checkbox" name="scalp" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">髪のボリュームが気になってきた</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="scalp" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">分け目や頭頂部が目立つように感じる</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="scalp" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">髪のハリ・コシが気になる</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="scalp" value="1">
+            <span class="checkbox-custom"></span>
+            <span class="item-text">頭皮の乾燥や硬さが気になる</span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" name="scalp" value="1">
+            
